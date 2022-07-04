@@ -13,16 +13,18 @@ import { PlacesContext } from "../store/places-context";
 
 // model
 import Place from "../models/Place";
+import PlaceImagePicker from "../components/Util/PlaceImagePicker";
+import PlaceLocationPicker from "../components/Util/PlaceLocationPicker";
 
 const AddPlaceScreen = ({ navigation }) => {
     const placeContext = useContext(PlacesContext);
     const [title, setTitle] = useState("");
     const [address, setAddress] = useState("");
     const [imgUrl, setImgUrl] = useState("");
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState({});
 
     const addPlaceHandler = () => {
-        const newPlace = new Place(title, address, imgUrl, location);
+        const newPlace = new Place(title, imgUrl, address, location);
         placeContext.addPlace(newPlace);
         navigation.navigate("AllPlacesScreen");
     };
@@ -42,16 +44,11 @@ const AddPlaceScreen = ({ navigation }) => {
                 style={styles.textinput}
             />
             <Text>Enter place imgUrl</Text>
-            <TextInput
-                onChangeText={setImgUrl}
-                value={imgUrl}
-                style={styles.textinput}
-            />
+            <PlaceImagePicker setImgUrl={setImgUrl} />
             <Text>Enter place location</Text>
-            <TextInput
-                onChangeText={setLocation}
-                value={location}
-                style={styles.textinput}
+            <PlaceLocationPicker
+                setLocation={setLocation}
+                location={location}
             />
             <Pressable
                 onPress={addPlaceHandler}
@@ -72,6 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 10,
         fontSize: 18,
+        width: 200,
     },
 });
 
