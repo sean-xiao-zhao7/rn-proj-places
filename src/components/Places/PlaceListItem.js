@@ -9,7 +9,9 @@ const PlaceListItem = ({ title, address, imageUrl, location }) => {
                 source={{ uri: imageUrl }}
                 style={{ width: 200, height: 200 }}
             />
-            <Text>{location}</Text>
+            <Text>
+                {location.coords?.latitude}, {location.coords?.longitude}
+            </Text>
         </View>
     );
 };

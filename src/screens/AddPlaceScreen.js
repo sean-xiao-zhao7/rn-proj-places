@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-
+import * as Notifications from "expo-notifications";
 const {
     View,
     TextInput,
@@ -23,10 +23,45 @@ const AddPlaceScreen = ({ navigation }) => {
     const [imgUrl, setImgUrl] = useState("");
     const [location, setLocation] = useState({});
 
-    const addPlaceHandler = () => {
+    const addPlaceHandler = async () => {
         const newPlace = new Place(title, imgUrl, address, location);
         placeContext.addPlace(newPlace);
+
+        // set local notification
+        const settings = await Notifications.getPermissionsAsync();
+        if (settings.ios?.status === 0 || settings.status !== "granted") {
+            await Notifications.requestPermissionsAsync({
+                ios: {
+                    allowAlert: true,
+                    allowBadge: true,
+                    allowSound: true,
+                    allowAnnouncements: true,
+                },
+            });
+        }
+
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: `Added ${title} to places.`,
+                body: `${title} has been added by you to the list of places.`,
+            },
+            trigger: {
+                seconds: 5,
+            },
+        });
         navigation.navigate("AllPlacesScreen");
+    };
+
+    const scheduleNotification = () => {
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Remember to drink water!",
+            },
+            trigger: {
+                seconds: 5,
+                repeats: true,
+            },
+        });
     };
 
     return (

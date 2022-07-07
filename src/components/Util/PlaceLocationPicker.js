@@ -25,11 +25,11 @@ const PlaceLocationPicker = ({ location, setLocation }) => {
             }}
             onPress={getLocation}
         >
-            {location ? (
+            {location.coords?.latitude ? (
                 <MapView
                     region={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
+                        latitude: location.coords?.latitude,
+                        longitude: location.coords?.longitude,
                         latitudeDelta: 0.04,
                         longitudeDelta: 0.05,
                     }}
@@ -40,8 +40,8 @@ const PlaceLocationPicker = ({ location, setLocation }) => {
                 >
                     <Marker
                         coordinate={{
-                            latitude: location.coords.latitude,
-                            longitude: location.coords.longitude,
+                            latitude: location.coords?.latitude,
+                            longitude: location.coords?.longitude,
                         }}
                     />
                 </MapView>
