@@ -40,15 +40,15 @@ const AddPlaceScreen = ({ navigation }) => {
             });
         }
 
-        Notifications.scheduleNotificationAsync({
-            content: {
-                title: `Added ${title} to places.`,
-                body: `${title} has been added by you to the list of places.`,
-            },
-            trigger: {
-                seconds: 5,
-            },
-        });
+        // Notifications.scheduleNotificationAsync({
+        //     content: {
+        //         title: `Added ${title} to places.`,
+        //         body: `${title} has been added by you to the list of places.`,
+        //     },
+        //     trigger: {
+        //         seconds: 5,
+        //     },
+        // });
         navigation.navigate("AllPlacesScreen");
     };
 

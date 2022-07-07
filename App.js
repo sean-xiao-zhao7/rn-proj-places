@@ -36,6 +36,39 @@ export default function App() {
         };
     }, []);
 
+    useEffect(() => {
+        const getPermissions = async () => {
+            const { status } = await Notifications.getPermissionsAsync();
+            let finalStatus = status;
+            if (finalStatus !== "granted") {
+                await Notifications.requestPermissionsAsync({
+                    ios: {
+                        allowAlert: true,
+                        allowBadge: true,
+                        allowSound: true,
+                        allowAnnouncements: true,
+                    },
+                });
+            }
+        };
+        getPermissions();
+
+        const getToken = async () => {
+            try {
+                const expoPushToken = await Notifications.getExpoPushTokenAsync(
+                    {
+                        experienceId: "@username/example",
+                    }
+                );
+                return expoPushToken;
+            } catch (e) {
+                console.log(e.message);
+            }
+        };
+
+        const token = getToken();
+    }, []);
+
     return (
         <>
             <StatusBar style="auto" />
